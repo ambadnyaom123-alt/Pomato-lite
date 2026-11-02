@@ -46,8 +46,9 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   }
 
   // Computed answer 1 — AVG(rating), fresh, every time. Rounded to one decimal here in the backend.
+  // The star row is also computed here (floor of the average), because the frontend does zero maths.
   const [stats] = await sql.query(
-    "SELECT AVG(rating)::float AS average, COUNT(*)::int AS total FROM reviews WHERE restaurant_id = $1",
+    "SELECT AVG(rating)::float AS average, FLOOR(AVG(rating))::int AS stars, COUNT(*)::int AS total FROM reviews WHERE restaurant_id = $1",
     [restaurantId]
   );
   const averageRating = stats.average === null ? null : Math.round(stats.average * 10) / 10;
@@ -73,6 +74,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
     cuisine: restaurant.cuisine,
     area: restaurant.area,
     averageRating,
+    averageStars: stats.stars,
     totalReviews: stats.total,
     latestReview: latest ? toReview(pullRow(latest)) : null,
     reviews: older.map((row) => toReview(pullRow(row))),
