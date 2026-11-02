@@ -8,13 +8,29 @@ import { sql } from "@/db/client";
 
 type Review = { id: number; rating: number; comment: string; createdAt: string };
 
-function toReview(review: { id: number; rating: number; comment: string; created_at: Date | string }): Review {
+// The shape of a review row as the database returns it:
+type ReviewRow = { id: number; rating: number; comment: string; created_at: Date | string };
+
+// The driver for the connection returns rows typed as vague "any shape" objects and
+// production build (unlike dev) runs full type-checking, so the shape is spelled
+// out here, field by field, exactly where vague data hands itself to our code.
+function pullRow(row: Record<string, unknown> | undefined): ReviewRow {
   return {
-    id: review.id,
-    rating: review.rating,
-    comment: review.comment,
+    id: row?.id == null ? 0 : Number(row.id),
+    rating: row?.rating == null ? 0 : Number(row.rating),
+    comment: row?.comment == null ? "" : String(row.comment),
+    created_at:
+      row?.created_at instanceof Date ? row.created_at : new Date(String(row?.created_at)),
+  };
+}
+
+function toReview(row: ReviewRow): Review {
+  return {
+    id: row.id,
+    rating: row.rating,
+    comment: row.comment,
     createdAt:
-      review.created_at instanceof Date ? review.created_at.toISOString() : new Date(review.created_at).toISOString(),
+      row.created_at instanceof Date ? row.created_at.toISOString() : new Date(row.created_at).toISOString(),
   };
 }
 
@@ -58,7 +74,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
     area: restaurant.area,
     averageRating,
     totalReviews: stats.total,
-    latestReview: latest ? toReview(latest) : null,
-    reviews: older.map(toReview),
+    latestReview: latest ? toReview(pullRow(latest)) : null,
+    reviews: older.map((row) => toReview(pullRow(row))),
   });
 }
