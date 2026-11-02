@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" role="img" aria-label="Illustration of a Ludhiana-style burrito on a plate">
+  <!-- Off-white plate backdrop, same palette as the app -->
+  <rect width="1200" height="600" fill="#FBF5EC"/>
+
+  <!-- Steam, drawn first so the food can sit over it -->
+  <path d="M560 205 q22 -42 0 -84" stroke="#C9BCA6" stroke-width="10" stroke-linecap="round" fill="none"/>
+  <path d="M645 215 q22 -42 0 -84" stroke="#C9BCA6" stroke-width="10" stroke-linecap="round" fill="none"/>
+
+  <!-- Plate -->
+  <ellipse cx="600" cy="390" rx="330" ry="145" fill="#F1E7D8"/>
+
+  <!-- The burrito -->
+  <g transform="rotate(-7 600 340)">
+    <rect x="330" y="278" width="540" height="122" rx="61" fill="#E8C89A" stroke="#5A4632" stroke-width="6"/>
+    <!-- Grill marks -->
+    <path d="M430 280 v118 M505 280 v118 M580 280 v118 M655 280 v118 M730 280 v118"
+          stroke="#D9B27C" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.75"/>
+    <!-- Folded end -->
+    <path d="M330 339 q60 -64 122 0 q-62 64 -122 0 Z" fill="#F5E3C3" stroke="#5A4632" stroke-width="6"/>
+    <!-- Drizzle -->
+    <path d="M470 298 q110 30 260 0" stroke="#B45309" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.85"/>
+  </g>
+
+  <!-- Warm accent specks, very sparingly -->
+  <circle cx="392" cy="452" r="13" fill="#B45309"/>
+  <circle cx="852" cy="440" r="9" fill="#B45309" opacity="0.7"/>
+</svg>

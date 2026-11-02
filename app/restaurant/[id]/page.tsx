@@ -52,9 +52,18 @@ export default async function RestaurantPage({ params }: { params: Promise<{ id:
         </p>
       </header>
 
+      {/* The illustration — a file in public/, displayed; nothing fetched or computed */}
+      <figure className="animate-fade-up mt-6" style={{ animationDelay: "0.05s" }}>
+        <img
+          src="/hero.svg"
+          alt="Illustration: a Ludhiana-style burrito on a plate"
+          className="w-full rounded-lg border border-neutral-200"
+        />
+      </figure>
+
       {data.totalReviews === 0 ? (
         // 6. Empty state — invite the first review.
-        <section className="mt-16 rounded-lg border border-neutral-200 p-10 text-center">
+        <section className="animate-fade-up mt-16 rounded-lg border border-neutral-200 p-10 text-center" style={{ animationDelay: "0.12s" }}>
           <p className="text-neutral-700">No reviews yet.</p>
           <p className="mt-1 text-sm text-neutral-500">Your review starts the story.</p>
           <Link
@@ -67,7 +76,7 @@ export default async function RestaurantPage({ params }: { params: Promise<{ id:
       ) : (
         <>
           {/* 2. The average — the biggest thing on the page. Printed, not computed. */}
-          <section className="mt-10 flex items-end gap-4">
+          <section className="animate-fade-up mt-10 flex items-end gap-4" style={{ animationDelay: "0.12s" }}>
             <span className="text-6xl font-semibold tracking-tight">{data.averageRating}</span>
             <div className="pb-2 text-sm text-neutral-500">
               <p>{data.averageRating} / 5</p>
@@ -78,7 +87,7 @@ export default async function RestaurantPage({ params }: { params: Promise<{ id:
           </section>
 
           {/* 3. The latest review — highlighted, sitting apart from the rest. */}
-          <section className="mt-10 rounded-lg border border-[#EAD9C2] bg-[#FBF5EC] p-5">
+          <section className="animate-fade-up mt-10 rounded-lg border border-[#EAD9C2] bg-[#FBF5EC] p-5" style={{ animationDelay: "0.2s" }}>
             <p className="text-xs font-medium uppercase tracking-wide text-[#B45309]">Latest review</p>
             <p className="mt-3 text-lg leading-snug">“{data.latestReview!.comment}”</p>
             <p className="mt-3 text-sm text-neutral-500">
@@ -90,8 +99,12 @@ export default async function RestaurantPage({ params }: { params: Promise<{ id:
           <section className="mt-10">
             <h2 className="text-sm font-medium uppercase tracking-wide text-neutral-500">All reviews</h2>
             <ul className="mt-4 divide-y divide-neutral-200">
-              {data.reviews.map((review) => (
-                <li key={review.id} className="py-4">
+              {data.reviews.map((review, index) => (
+                <li
+                  key={review.id}
+                  className="animate-fade-up py-4"
+                  style={{ animationDelay: `${0.28 + index * 0.05}s` }}
+                >
                   <p>{review.comment}</p>
                   <p className="mt-1 text-sm text-neutral-500">
                     {review.rating} / 5 · {review.createdAt.slice(0, 10)}

@@ -67,13 +67,13 @@ export default function WriteReviewPage() {
           <div className="mt-3 flex gap-1 text-4xl leading-none">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
-                key={star}
                 type="button"
                 aria-label={`${star} star`}
                 onClick={() => setRating(star)}
+                key={`${star}-${rating !== null && rating >= star ? "on" : "off"}`}
                 className={
                   rating !== null && rating >= star
-                    ? "text-[#B45309] transition-colors"
+                    ? "animate-pop text-[#B45309] transition-colors"
                     : "text-neutral-300 transition-colors hover:text-neutral-500"
                 }
               >
